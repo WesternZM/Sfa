@@ -1,11 +1,11 @@
+  script_name("SFA") 
   script_name("SFA")
-  script_name("SFA")
-script_description("/SFA - Основная команда.")
-script_version("3.5")
+script_description("/SFA - ГЋГ±Г­Г®ГўГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .")
+script_version("3.6")
 script_author("Rickot")
 script_dependencies("SAMPFUNCS, SAMP")
---[[Билиотеки которые будут применяться  после local и перед =, это локальная переменная...
- которая обращается к функции брав нужную либу]]
+--[[ГЃГЁГ«ГЁГ®ГІГҐГЄГЁ ГЄГ®ГІГ®Г°Г»ГҐ ГЎГіГ¤ГіГІ ГЇГ°ГЁГ¬ГҐГ­ГїГІГјГ±Гї  ГЇГ®Г±Г«ГҐ local ГЁ ГЇГҐГ°ГҐГ¤ =, ГЅГІГ® Г«Г®ГЄГ Г«ГјГ­Г Гї ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г Гї...
+ ГЄГ®ГІГ®Г°Г Гї Г®ГЎГ°Г Г№Г ГҐГІГ±Гї ГЄ ГґГіГ­ГЄГ¶ГЁГЁ ГЎГ°Г Гў Г­ГіГ¦Г­ГіГѕ Г«ГЁГЎГі]]
 require("lib.moonloader")
 require("lib.sampfuncs")
 local sampev = require 'lib.samp.events'
@@ -16,141 +16,141 @@ local dlstatus = require('moonloader').download_status
 local window1 = imgui.ImBool(false)
 local window2 = imgui.ImBool(false)
 local mainwindow = imgui.ImBool(false)
---[[Энкодинг это грубо говоря перевод UTF8 в кирилицу (а как мы знаем utf8 это инглиш..)]]
+--[[ГќГ­ГЄГ®Г¤ГЁГ­ГЈ ГЅГІГ® ГЈГ°ГіГЎГ® ГЈГ®ГўГ®Г°Гї ГЇГҐГ°ГҐГўГ®Г¤ UTF8 Гў ГЄГЁГ°ГЁГ«ГЁГ¶Гі (Г  ГЄГ ГЄ Г¬Г» Г§Г­Г ГҐГ¬ utf8 ГЅГІГ® ГЁГ­ГЈГ«ГЁГё..)]]
 local encoding = require 'encoding'
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
 
-jstart = 1 -- jstart это воспроизводная текста при запуске..
+jstart = 1 -- jstart ГЅГІГ® ГўГ®Г±ГЇГ°Г®ГЁГ§ГўГ®Г¤Г­Г Гї ГІГҐГЄГ±ГІГ  ГЇГ°ГЁ Г§Г ГЇГіГ±ГЄГҐ..
 
 function main()
   	if not isSampLoaded() or not isSampfuncsLoaded() then return end
-		autoupdate("https://www.dropbox.com/s/dpuix8w4m7qnub5/SFA.json?dl=0", '['..string.upper(thisScript().name)..']: ', "https://www.dropbox.com/s/dpuix8w4m7qnub5/SFA.json?dl=0")
+		autoupdate("https://github.com/WesternZM/Sfa/blob/2ec22b2c5fb44a316c28da836c8d0595ea650775/SFA.json", '['..string.upper(thisScript().name)..']: ', "https://github.com/WesternZM/Sfa/blob/2ec22b2c5fb44a316c28da836c8d0595ea650775/SFA.json")
 	while not isSampAvailable() do wait(1000) end
 --   checkUpdate()
-    -- По принту можно понять что ниже проверка сервера
-		print("Проверка сервера...")
+    -- ГЏГ® ГЇГ°ГЁГ­ГІГі Г¬Г®Г¦Г­Г® ГЇГ®Г­ГїГІГј Г·ГІГ® Г­ГЁГ¦ГҐ ГЇГ°Г®ГўГҐГ°ГЄГ  Г±ГҐГ°ГўГҐГ°Г 
+		print("ГЏГ°Г®ГўГҐГ°ГЄГ  Г±ГҐГ°ГўГҐГ°Г ...")
     	if sampGetCurrentServerAddress() =="217.106.106.86" then
     		gameServer = "Western zm"
     		srv = 1
-	--[[elseif это как if выше ток доп к однуму else и end]]	elseif sampGetCurrentServerAddress() == "217.106.106.86" then -- эт добавил шоб я мог его тестить
+	--[[elseif ГЅГІГ® ГЄГ ГЄ if ГўГ»ГёГҐ ГІГ®ГЄ Г¤Г®ГЇ ГЄ Г®Г¤Г­ГіГ¬Гі else ГЁ end]]	elseif sampGetCurrentServerAddress() == "217.106.106.86" then -- ГЅГІ Г¤Г®ГЎГ ГўГЁГ« ГёГ®ГЎ Гї Г¬Г®ГЈ ГҐГЈГ® ГІГҐГ±ГІГЁГІГј
 			gameServer = ""
 			srv = 2
 		else
-			print("Сервер не допущен, работа скрипта завершена")
-    		sampAddChatMessage("[SFA]{FFFFFF} К сожалению, данный скрипт недоступен для работы на данном сервере.", 0x046D63)
-    		sampAddChatMessage("[SFA]{FFFFFF} Свяжитесь с разработчиком, если хотите уточнить возможность решения данной проблемы.", 0x046D63)
+			print("Г‘ГҐГ°ГўГҐГ° Г­ГҐ Г¤Г®ГЇГіГ№ГҐГ­, Г°Г ГЎГ®ГІГ  Г±ГЄГ°ГЁГЇГІГ  Г§Г ГўГҐГ°ГёГҐГ­Г ")
+    		sampAddChatMessage("[SFA]{FFFFFF} ГЉ Г±Г®Г¦Г Г«ГҐГ­ГЁГѕ, Г¤Г Г­Г­Г»Г© Г±ГЄГ°ГЁГЇГІ Г­ГҐГ¤Г®Г±ГІГіГЇГҐГ­ Г¤Г«Гї Г°Г ГЎГ®ГІГ» Г­Г  Г¤Г Г­Г­Г®Г¬ Г±ГҐГ°ГўГҐГ°ГҐ.", 0x046D63)
+    		sampAddChatMessage("[SFA]{FFFFFF} Г‘ГўГїГ¦ГЁГІГҐГ±Гј Г± Г°Г Г§Г°Г ГЎГ®ГІГ·ГЁГЄГ®Г¬, ГҐГ±Г«ГЁ ГµГ®ГІГЁГІГҐ ГіГІГ®Г·Г­ГЁГІГј ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГј Г°ГҐГёГҐГ­ГЁГї Г¤Г Г­Г­Г®Г© ГЇГ°Г®ГЎГ«ГҐГ¬Г».", 0x046D63)
     		thisScript():unload()
     		return
     	end
-    	print("Проверка пройдена, сервер: "..tostring(gameServer))
+    	print("ГЏГ°Г®ГўГҐГ°ГЄГ  ГЇГ°Г®Г©Г¤ГҐГ­Г , Г±ГҐГ°ГўГҐГ°: "..tostring(gameServer))
 
  if jstart == 1 then
-    sampAddChatMessage("{ffffff}* [SFA{ffffff}]: {00BFFF}SFA для администрации Western ZM", -1)
-    sampAddChatMessage("{ffffff}* [SFA{ffffff}]: {00BFFF}Скрипт успешно запущен. - [/sfa].", -1)
-	sampAddChatMessage('{ffffff}* [SFA{ffffff}]: {00BFFF}Текущая версия: '..thisScript().version)
+    sampAddChatMessage("{ffffff}* [SFA{ffffff}]: {00BFFF}SFA Г¤Г«Гї Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ Western ZM", -1)
+    sampAddChatMessage("{ffffff}* [SFA{ffffff}]: {00BFFF}Г‘ГЄГ°ГЁГЇГІ ГіГ±ГЇГҐГёГ­Г® Г§Г ГЇГіГ№ГҐГ­. - [/sfa].", -1)
+	sampAddChatMessage('{ffffff}* [SFA{ffffff}]: {00BFFF}Г’ГҐГЄГіГ№Г Гї ГўГҐГ°Г±ГЁГї: '..thisScript().version)
  elseif jstart == 2 then
-    sampfuncsLog('{ffffff}* [{949055} SFA{ffffff}]: {949055}Текущая версия : '..thisScript().version)
+    sampfuncsLog('{ffffff}* [{949055} SFA{ffffff}]: {949055}Г’ГҐГЄГіГ№Г Гї ГўГҐГ°Г±ГЁГї : '..thisScript().version)
   end
-  --------------------------КОМАНДЫ--------------------------
+  --------------------------ГЉГЋГЊГЂГЌГ„Г›--------------------------
 sampRegisterChatCommand("sfa", window)
 sampRegisterChatCommand("rt", rt)
 sampRegisterChatCommand("nenaeb", nenaeb)
-     ---------------------Ответы в репорту-------------------
+     ---------------------ГЋГІГўГҐГІГ» Гў Г°ГҐГЇГ®Г°ГІГі-------------------
 sampRegisterChatCommand("da", otvetda) -- "da"
-sampRegisterChatCommand("yes", yes) -- "да"
-sampRegisterChatCommand("net", otvetnet) -- "нет"
-sampRegisterChatCommand("no", no) -- "нет"
-sampRegisterChatCommand("zm", zm) -- "игрок зомби"
-sampRegisterChatCommand("pri", otvetpri) -- "приятной игры"
-sampRegisterChatCommand("spect", otvetspect) -- "слежу"
-sampRegisterChatCommand("s", s) -- "слежу"
-sampRegisterChatCommand("google", google) -- "найдите эту информацию в интернете"
-sampRegisterChatCommand("sorry", sorry) -- "приносим свои извинения за предоставленные неудобства"
-sampRegisterChatCommand("infprest", otvetprest) -- информация о престиже
-sampRegisterChatCommand("infcost", infcost) -- информация о цене предметов
-sampRegisterChatCommand('infcaps', infcaps) -- информация о капсе
-sampRegisterChatCommand("ukrit", otvetukrit) -- "в укрытие"
-sampRegisterChatCommand("chist", otvetchist) -- "не заметил нарушений от игрока"
-sampRegisterChatCommand("infroll", otvetinfrol) -- инфорция о рулетке
-sampRegisterChatCommand("infclass", otvetinfclass) -- информация о классах
-sampRegisterChatCommand("inftrade", inftrade) -- инфорция о трейдах
-sampRegisterChatCommand("sekret", sekret) -- "не распространяем информацию"
-sampRegisterChatCommand("infpvp2", infpvp2) -- "командная игра на пвп разрешена"
-sampRegisterChatCommand("infpvp", infpvp) -- Это пвп карта, тут разрешено убивать выживших
-sampRegisterChatCommand("predup", predup) -- "Предупредил игрока"
-sampRegisterChatCommand("pred", pred) -- "Предупредил игрока"
-sampRegisterChatCommand("forum", otvetforum) -- "напишите жалобу на форум"
-sampRegisterChatCommand("tehforum", tehforum) -- "напишите в тех.раздел на форуме"
-sampRegisterChatCommand("stopblock", stopblock) -- "прекратите блокировать укрытие"
-sampRegisterChatCommand("tut", tut) -- "начинайте игру"
-sampRegisterChatCommand("hz", otvethz) -- "не могу дать ответ на ваш вопрос"
-sampRegisterChatCommand("nepon", otvetnepon) -- "непонял вашего вопроса"
-sampRegisterChatCommand("nakazan", otvetnakazan) -- "игрок наказан"
-sampRegisterChatCommand("pomog", otvetpomog) -- "помог вам"
-sampRegisterChatCommand("prohod", prohod) -- "проходите карту"
-sampRegisterChatCommand("stoptk", stoptk) -- "прекратите ТК"
-sampRegisterChatCommand("stopofftop", stopofftop) -- "прекратите оффтоп в репорт"
-sampRegisterChatCommand("stopzapret", stopzapret) -- "вы в запретном укрытии"
-sampRegisterChatCommand("stoppom", stoppom) -- "прекратите помеху"
----------------------Наказания----------------------
-sampRegisterChatCommand("cheat", cheat) -- чит
-sampRegisterChatCommand("capsosk", capsosk) -- капс + оск.
-sampRegisterChatCommand("osk", oskorbil) -- оскорбление игроков
-sampRegisterChatCommand("admosk", adminaosknyl) -- оск. администрации
-sampRegisterChatCommand("oskadm", oskadm) -- оск.администрации
-sampRegisterChatCommand("capsoskadm", capsoskadm) -- капс + оск.адм
-sampRegisterChatCommand("oskadmcaps", oskadmcaps) -- капс + оск.адм
-sampRegisterChatCommand("caps", caps) -- капс
-sampRegisterChatCommand("obman", obman) -- обман игроков
-sampRegisterChatCommand("pomeha", pomeha) -- помеха
-sampRegisterChatCommand("oskproject", oskproject) -- оск. проекта
-sampRegisterChatCommand("oskprojectcaps", oskprojectcaps) -- оск. проекта + капс
-sampRegisterChatCommand("capsoskproject", capsoskproject) -- оск. проекта + капс
-sampRegisterChatCommand("upom", upominul) -- упоминание родных
-sampRegisterChatCommand("mq", mq) -- упоминание родных
-sampRegisterChatCommand("capsmq", capsmq) -- капс + упоминание родных
-sampRegisterChatCommand("capsupom", capsupom) -- капс + упоминание родных
-sampRegisterChatCommand("mqcaps", mqcaps) -- капс + упоминание родных
-sampRegisterChatCommand("upomcaps", upomcaps) -- капс + упоминание родных
-sampRegisterChatCommand("derz", derz) -- дерзкое отношение к адм
-sampRegisterChatCommand("afk", heafk) -- афк без паузы
-sampRegisterChatCommand("tks", tksurvive) -- тк выживший
-sampRegisterChatCommand("tks2", tks2) -- варн за ТК 
-sampRegisterChatCommand("upomproject", upomproject) -- упоминание сторонних проектов
-sampRegisterChatCommand("tkz", tkzombie) -- тк зомби
-sampRegisterChatCommand("bag", bag) -- багоюз
-sampRegisterChatCommand("wafk", wafk) -- афк в бою
-sampRegisterChatCommand("neproh", neproh) -- непрохождение карты
-sampRegisterChatCommand("beg", begun) -- бег по карте
-sampRegisterChatCommand("offtop", offtopinreport) -- оффтоп в репорт
-sampRegisterChatCommand("udlin", dlinner) -- удлиннение сообщений
-sampRegisterChatCommand("pust", pustoi) -- пустые сообщения
-sampRegisterChatCommand("zapret", zapret) -- запретное укрытие
-sampRegisterChatCommand("capsudlin", capsudlin) -- удлинение + капс
-sampRegisterChatCommand("udlincaps", udlincaps) -- удлинение + капс
-sampRegisterChatCommand("rz", rz) -- Выход рандом зм
-sampRegisterChatCommand("teampvp", teampvp) -- тим на пвп
-sampRegisterChatCommand("team", team) -- Командная игра зомби с выжившем --
+sampRegisterChatCommand("yes", yes) -- "Г¤Г "
+sampRegisterChatCommand("net", otvetnet) -- "Г­ГҐГІ"
+sampRegisterChatCommand("no", no) -- "Г­ГҐГІ"
+sampRegisterChatCommand("zm", zm) -- "ГЁГЈГ°Г®ГЄ Г§Г®Г¬ГЎГЁ"
+sampRegisterChatCommand("pri", otvetpri) -- "ГЇГ°ГЁГїГІГ­Г®Г© ГЁГЈГ°Г»"
+sampRegisterChatCommand("spect", otvetspect) -- "Г±Г«ГҐГ¦Гі"
+sampRegisterChatCommand("s", s) -- "Г±Г«ГҐГ¦Гі"
+sampRegisterChatCommand("google", google) -- "Г­Г Г©Г¤ГЁГІГҐ ГЅГІГі ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ Гў ГЁГ­ГІГҐГ°Г­ГҐГІГҐ"
+sampRegisterChatCommand("sorry", sorry) -- "ГЇГ°ГЁГ­Г®Г±ГЁГ¬ Г±ГўГ®ГЁ ГЁГ§ГўГЁГ­ГҐГ­ГЁГї Г§Г  ГЇГ°ГҐГ¤Г®Г±ГІГ ГўГ«ГҐГ­Г­Г»ГҐ Г­ГҐГіГ¤Г®ГЎГ±ГІГўГ "
+sampRegisterChatCommand("infprest", otvetprest) -- ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГї Г® ГЇГ°ГҐГ±ГІГЁГ¦ГҐ
+sampRegisterChatCommand("infcost", infcost) -- ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГї Г® Г¶ГҐГ­ГҐ ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў
+sampRegisterChatCommand('infcaps', infcaps) -- ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГї Г® ГЄГ ГЇГ±ГҐ
+sampRegisterChatCommand("ukrit", otvetukrit) -- "Гў ГіГЄГ°Г»ГІГЁГҐ"
+sampRegisterChatCommand("chist", otvetchist) -- "Г­ГҐ Г§Г Г¬ГҐГІГЁГ« Г­Г Г°ГіГёГҐГ­ГЁГ© Г®ГІ ГЁГЈГ°Г®ГЄГ "
+sampRegisterChatCommand("infroll", otvetinfrol) -- ГЁГ­ГґГ®Г°Г¶ГЁГї Г® Г°ГіГ«ГҐГІГЄГҐ
+sampRegisterChatCommand("infclass", otvetinfclass) -- ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГї Г® ГЄГ«Г Г±Г±Г Гµ
+sampRegisterChatCommand("inftrade", inftrade) -- ГЁГ­ГґГ®Г°Г¶ГЁГї Г® ГІГ°ГҐГ©Г¤Г Гµ
+sampRegisterChatCommand("sekret", sekret) -- "Г­ГҐ Г°Г Г±ГЇГ°Г®Г±ГІГ°Г Г­ГїГҐГ¬ ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ"
+sampRegisterChatCommand("infpvp2", infpvp2) -- "ГЄГ®Г¬Г Г­Г¤Г­Г Гї ГЁГЈГ°Г  Г­Г  ГЇГўГЇ Г°Г Г§Г°ГҐГёГҐГ­Г "
+sampRegisterChatCommand("infpvp", infpvp) -- ГќГІГ® ГЇГўГЇ ГЄГ Г°ГІГ , ГІГіГІ Г°Г Г§Г°ГҐГёГҐГ­Г® ГіГЎГЁГўГ ГІГј ГўГ»Г¦ГЁГўГёГЁГµ
+sampRegisterChatCommand("predup", predup) -- "ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¤ГЁГ« ГЁГЈГ°Г®ГЄГ "
+sampRegisterChatCommand("pred", pred) -- "ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¤ГЁГ« ГЁГЈГ°Г®ГЄГ "
+sampRegisterChatCommand("forum", otvetforum) -- "Г­Г ГЇГЁГёГЁГІГҐ Г¦Г Г«Г®ГЎГі Г­Г  ГґГ®Г°ГіГ¬"
+sampRegisterChatCommand("tehforum", tehforum) -- "Г­Г ГЇГЁГёГЁГІГҐ Гў ГІГҐГµ.Г°Г Г§Г¤ГҐГ« Г­Г  ГґГ®Г°ГіГ¬ГҐ"
+sampRegisterChatCommand("stopblock", stopblock) -- "ГЇГ°ГҐГЄГ°Г ГІГЁГІГҐ ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј ГіГЄГ°Г»ГІГЁГҐ"
+sampRegisterChatCommand("tut", tut) -- "Г­Г Г·ГЁГ­Г Г©ГІГҐ ГЁГЈГ°Гі"
+sampRegisterChatCommand("hz", otvethz) -- "Г­ГҐ Г¬Г®ГЈГі Г¤Г ГІГј Г®ГІГўГҐГІ Г­Г  ГўГ Гё ГўГ®ГЇГ°Г®Г±"
+sampRegisterChatCommand("nepon", otvetnepon) -- "Г­ГҐГЇГ®Г­ГїГ« ГўГ ГёГҐГЈГ® ГўГ®ГЇГ°Г®Г±Г "
+sampRegisterChatCommand("nakazan", otvetnakazan) -- "ГЁГЈГ°Г®ГЄ Г­Г ГЄГ Г§Г Г­"
+sampRegisterChatCommand("pomog", otvetpomog) -- "ГЇГ®Г¬Г®ГЈ ГўГ Г¬"
+sampRegisterChatCommand("prohod", prohod) -- "ГЇГ°Г®ГµГ®Г¤ГЁГІГҐ ГЄГ Г°ГІГі"
+sampRegisterChatCommand("stoptk", stoptk) -- "ГЇГ°ГҐГЄГ°Г ГІГЁГІГҐ Г’ГЉ"
+sampRegisterChatCommand("stopofftop", stopofftop) -- "ГЇГ°ГҐГЄГ°Г ГІГЁГІГҐ Г®ГґГґГІГ®ГЇ Гў Г°ГҐГЇГ®Г°ГІ"
+sampRegisterChatCommand("stopzapret", stopzapret) -- "ГўГ» Гў Г§Г ГЇГ°ГҐГІГ­Г®Г¬ ГіГЄГ°Г»ГІГЁГЁ"
+sampRegisterChatCommand("stoppom", stoppom) -- "ГЇГ°ГҐГЄГ°Г ГІГЁГІГҐ ГЇГ®Г¬ГҐГµГі"
+---------------------ГЌГ ГЄГ Г§Г Г­ГЁГї----------------------
+sampRegisterChatCommand("cheat", cheat) -- Г·ГЁГІ
+sampRegisterChatCommand("capsosk", capsosk) -- ГЄГ ГЇГ± + Г®Г±ГЄ.
+sampRegisterChatCommand("osk", oskorbil) -- Г®Г±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ®Гў
+sampRegisterChatCommand("admosk", adminaosknyl) -- Г®Г±ГЄ. Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ
+sampRegisterChatCommand("oskadm", oskadm) -- Г®Г±ГЄ.Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ
+sampRegisterChatCommand("capsoskadm", capsoskadm) -- ГЄГ ГЇГ± + Г®Г±ГЄ.Г Г¤Г¬
+sampRegisterChatCommand("oskadmcaps", oskadmcaps) -- ГЄГ ГЇГ± + Г®Г±ГЄ.Г Г¤Г¬
+sampRegisterChatCommand("caps", caps) -- ГЄГ ГЇГ±
+sampRegisterChatCommand("obman", obman) -- Г®ГЎГ¬Г Г­ ГЁГЈГ°Г®ГЄГ®Гў
+sampRegisterChatCommand("pomeha", pomeha) -- ГЇГ®Г¬ГҐГµГ 
+sampRegisterChatCommand("oskproject", oskproject) -- Г®Г±ГЄ. ГЇГ°Г®ГҐГЄГІГ 
+sampRegisterChatCommand("oskprojectcaps", oskprojectcaps) -- Г®Г±ГЄ. ГЇГ°Г®ГҐГЄГІГ  + ГЄГ ГЇГ±
+sampRegisterChatCommand("capsoskproject", capsoskproject) -- Г®Г±ГЄ. ГЇГ°Г®ГҐГЄГІГ  + ГЄГ ГЇГ±
+sampRegisterChatCommand("upom", upominul) -- ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ
+sampRegisterChatCommand("mq", mq) -- ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ
+sampRegisterChatCommand("capsmq", capsmq) -- ГЄГ ГЇГ± + ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ
+sampRegisterChatCommand("capsupom", capsupom) -- ГЄГ ГЇГ± + ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ
+sampRegisterChatCommand("mqcaps", mqcaps) -- ГЄГ ГЇГ± + ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ
+sampRegisterChatCommand("upomcaps", upomcaps) -- ГЄГ ГЇГ± + ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ
+sampRegisterChatCommand("derz", derz) -- Г¤ГҐГ°Г§ГЄГ®ГҐ Г®ГІГ­Г®ГёГҐГ­ГЁГҐ ГЄ Г Г¤Г¬
+sampRegisterChatCommand("afk", heafk) -- Г ГґГЄ ГЎГҐГ§ ГЇГ ГіГ§Г»
+sampRegisterChatCommand("tks", tksurvive) -- ГІГЄ ГўГ»Г¦ГЁГўГёГЁГ©
+sampRegisterChatCommand("tks2", tks2) -- ГўГ Г°Г­ Г§Г  Г’ГЉ 
+sampRegisterChatCommand("upomproject", upomproject) -- ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г±ГІГ®Г°Г®Г­Г­ГЁГµ ГЇГ°Г®ГҐГЄГІГ®Гў
+sampRegisterChatCommand("tkz", tkzombie) -- ГІГЄ Г§Г®Г¬ГЎГЁ
+sampRegisterChatCommand("bag", bag) -- ГЎГ ГЈГ®ГѕГ§
+sampRegisterChatCommand("wafk", wafk) -- Г ГґГЄ Гў ГЎГ®Гѕ
+sampRegisterChatCommand("neproh", neproh) -- Г­ГҐГЇГ°Г®ГµГ®Г¦Г¤ГҐГ­ГЁГҐ ГЄГ Г°ГІГ»
+sampRegisterChatCommand("beg", begun) -- ГЎГҐГЈ ГЇГ® ГЄГ Г°ГІГҐ
+sampRegisterChatCommand("offtop", offtopinreport) -- Г®ГґГґГІГ®ГЇ Гў Г°ГҐГЇГ®Г°ГІ
+sampRegisterChatCommand("udlin", dlinner) -- ГіГ¤Г«ГЁГ­Г­ГҐГ­ГЁГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГ©
+sampRegisterChatCommand("pust", pustoi) -- ГЇГіГ±ГІГ»ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГї
+sampRegisterChatCommand("zapret", zapret) -- Г§Г ГЇГ°ГҐГІГ­Г®ГҐ ГіГЄГ°Г»ГІГЁГҐ
+sampRegisterChatCommand("capsudlin", capsudlin) -- ГіГ¤Г«ГЁГ­ГҐГ­ГЁГҐ + ГЄГ ГЇГ±
+sampRegisterChatCommand("udlincaps", udlincaps) -- ГіГ¤Г«ГЁГ­ГҐГ­ГЁГҐ + ГЄГ ГЇГ±
+sampRegisterChatCommand("rz", rz) -- Г‚Г»ГµГ®Г¤ Г°Г Г­Г¤Г®Г¬ Г§Г¬
+sampRegisterChatCommand("teampvp", teampvp) -- ГІГЁГ¬ Г­Г  ГЇГўГЇ
+sampRegisterChatCommand("team", team) -- ГЉГ®Г¬Г Г­Г¤Г­Г Гї ГЁГЈГ°Г  Г§Г®Г¬ГЎГЁ Г± ГўГ»Г¦ГЁГўГёГҐГ¬ --
 resX, resY = getScreenResolution()
 while true do wait(0)
-    ------------- Имгуи процесс это рега окон имгуи..
+    ------------- Г€Г¬ГЈГіГЁ ГЇГ°Г®Г¶ГҐГ±Г± ГЅГІГ® Г°ГҐГЈГ  Г®ГЄГ®Г­ ГЁГ¬ГЈГіГЁ..
 imgui.Process = window1.v or window2.v or  mainwindow.v
 
     end
 end
 
 --------------------------------------------------------------------------------------------
-----------------------------------------ОТВЕТЫ НА РЕПОРТ------------------------------------
+----------------------------------------ГЋГ’Г‚Г…Г’Г› ГЌГЂ ГђГ…ГЏГЋГђГ’------------------------------------
 --------------------------------------------------------------------------------------------
 
 function otvetda(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Да.')
+                    sampSendChat('/ans '..id..' Г„Г .')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Да". [/da id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "Г„Г ". [/da id].', -1)
         end
     end
 end
@@ -159,9 +159,9 @@ function yes(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Да.')
+                    sampSendChat('/ans '..id..' Г„Г .')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Да". [/yes id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "Г„Г ". [/yes id].', -1)
         end
     end
 end
@@ -170,9 +170,9 @@ end
             id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Нет.')
+                    sampSendChat('/ans '..id..' ГЌГҐГІ.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Нет". [/net id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГҐГІ". [/net id].', -1)
         end
     end
 end
@@ -181,9 +181,9 @@ function no(param)
 				id = tonumber(param)
 if param then
 		if id ~= nil then
-								sampSendChat('/ans '..id..' Нет.')
+								sampSendChat('/ans '..id..' ГЌГҐГІ.')
 						 else
-				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Нет". [/no id].', -1)
+				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГҐГІ". [/no id].', -1)
 		end
 end
 end
@@ -192,9 +192,9 @@ function zm(param)
 				id = tonumber(param)
 if param then
 		if id ~= nil then
-								sampSendChat('/ans '..id..' Данный игрок является зомби.')
+								sampSendChat('/ans '..id..' Г„Г Г­Г­Г»Г© ГЁГЈГ°Г®ГЄ ГїГўГ«ГїГҐГІГ±Гї Г§Г®Г¬ГЎГЁ.')
 						 else
-				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Игрок зомби". [/zm id].', -1)
+				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "Г€ГЈГ°Г®ГЄ Г§Г®Г¬ГЎГЁ". [/zm id].', -1)
 		end
 end
 end
@@ -203,9 +203,9 @@ function otvetpomog(param)
 				id = tonumber(param)
 if param then
 		if id ~= nil then
-								sampSendChat('/ans '..id..' Помог Вам. Приятной игры :) ')
+								sampSendChat('/ans '..id..' ГЏГ®Г¬Г®ГЈ Г‚Г Г¬. ГЏГ°ГЁГїГІГ­Г®Г© ГЁГЈГ°Г» :) ')
 						 else
-				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Помог Вам". [/pomog id].', -1)
+				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ®Г¬Г®ГЈ Г‚Г Г¬". [/pomog id].', -1)
 		end
 end
 end
@@ -214,9 +214,9 @@ function otvetpri(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Приятной игры на Western ZM :)')
+                    sampSendChat('/ans '..id..' ГЏГ°ГЁГїГІГ­Г®Г© ГЁГЈГ°Г» Г­Г  Western ZM :)')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Приятной игры". [/pri id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ°ГЁГїГІГ­Г®Г© ГЁГЈГ°Г»". [/pri id].', -1)
         end
     end
 end
@@ -225,9 +225,9 @@ function otvethz(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' К сожалению, я не могу дать ответ на Ваш вопрос.')
+                    sampSendChat('/ans '..id..' ГЉ Г±Г®Г¦Г Г«ГҐГ­ГЁГѕ, Гї Г­ГҐ Г¬Г®ГЈГі Г¤Г ГІГј Г®ГІГўГҐГІ Г­Г  Г‚Г Гё ГўГ®ГЇГ°Г®Г±.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Не могу дать ответ на ваш вопрос". [/hz id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГҐ Г¬Г®ГЈГі Г¤Г ГІГј Г®ГІГўГҐГІ Г­Г  ГўГ Гё ГўГ®ГЇГ°Г®Г±". [/hz id].', -1)
         end
     end
 end
@@ -236,9 +236,9 @@ function otvetnepon(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Не понял Вашего вопроса.')
+                    sampSendChat('/ans '..id..' ГЌГҐ ГЇГ®Г­ГїГ« Г‚Г ГёГҐГЈГ® ГўГ®ГЇГ°Г®Г±Г .')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Не понял вашего вопроса". [/nepon id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГҐ ГЇГ®Г­ГїГ« ГўГ ГёГҐГЈГ® ГўГ®ГЇГ°Г®Г±Г ". [/nepon id].', -1)
         end
     end
 end
@@ -247,9 +247,9 @@ function stoptk(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Перестаньте наносить урон по своим союзникам, иначе Вы будете наказаны.')
+                    sampSendChat('/ans '..id..' ГЏГҐГ°ГҐГ±ГІГ Г­ГјГІГҐ Г­Г Г­Г®Г±ГЁГІГј ГіГ°Г®Г­ ГЇГ® Г±ГўГ®ГЁГ¬ Г±Г®ГѕГ§Г­ГЁГЄГ Г¬, ГЁГ­Г Г·ГҐ Г‚Г» ГЎГіГ¤ГҐГІГҐ Г­Г ГЄГ Г§Г Г­Г».')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Прекратите ТК". [/stoptk id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ°ГҐГЄГ°Г ГІГЁГІГҐ Г’ГЉ". [/stoptk id].', -1)
         end
     end
 end
@@ -258,9 +258,9 @@ function stopzapret(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Вы находитесь в запретном укрытии. Покиньте его, иначе будете наказны.')
+                    sampSendChat('/ans '..id..' Г‚Г» Г­Г ГµГ®Г¤ГЁГІГҐГ±Гј Гў Г§Г ГЇГ°ГҐГІГ­Г®Г¬ ГіГЄГ°Г»ГІГЁГЁ. ГЏГ®ГЄГЁГ­ГјГІГҐ ГҐГЈГ®, ГЁГ­Г Г·ГҐ ГЎГіГ¤ГҐГІГҐ Г­Г ГЄГ Г§Г­Г».')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Это запретное укрытие". [/stopzapret id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГќГІГ® Г§Г ГЇГ°ГҐГІГ­Г®ГҐ ГіГЄГ°Г»ГІГЁГҐ". [/stopzapret id].', -1)
         end
     end
 end
@@ -269,9 +269,9 @@ function otvetnakazan(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Игрок наказан. Приятной игры :)')
+                    sampSendChat('/ans '..id..' Г€ГЈГ°Г®ГЄ Г­Г ГЄГ Г§Г Г­. ГЏГ°ГЁГїГІГ­Г®Г© ГЁГЈГ°Г» :)')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Игрок наказан". [/nakazan id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "Г€ГЈГ°Г®ГЄ Г­Г ГЄГ Г§Г Г­". [/nakazan id].', -1)
         end
     end
 end
@@ -280,10 +280,10 @@ function inftrade(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' /sellthing id(Игрока) id(Предмета) цена - продать игроку...')
-                    sampSendChat('/ans '..id..' /sellthing-продать серверу.')
+                    sampSendChat('/ans '..id..' /sellthing id(Г€ГЈГ°Г®ГЄГ ) id(ГЏГ°ГҐГ¤Г¬ГҐГІГ ) Г¶ГҐГ­Г  - ГЇГ°Г®Г¤Г ГІГј ГЁГЈГ°Г®ГЄГі...')
+                    sampSendChat('/ans '..id..' /sellthing-ГЇГ°Г®Г¤Г ГІГј Г±ГҐГ°ГўГҐГ°Гі.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ на вопрос "как продать вещи?". [/inftrade id].', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ Г­Г  ГўГ®ГЇГ°Г®Г± "ГЄГ ГЄ ГЇГ°Г®Г¤Г ГІГј ГўГҐГ№ГЁ?". [/inftrade id].', -1)
         end
     end
 end
@@ -292,9 +292,9 @@ function otvetspect(param)
 id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Работаю по Вашему репорту.')
+                    sampSendChat('/ans '..id..' ГђГ ГЎГ®ГІГ Гѕ ГЇГ® Г‚Г ГёГҐГ¬Гі Г°ГҐГЇГ®Г°ГІГі.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Работаю". [/spect id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГђГ ГЎГ®ГІГ Гѕ". [/spect id]', -1)
         end
     end
 end
@@ -303,9 +303,9 @@ function s(param)
 id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Работаю по Вашему репорту.')
+                    sampSendChat('/ans '..id..' ГђГ ГЎГ®ГІГ Гѕ ГЇГ® Г‚Г ГёГҐГ¬Гі Г°ГҐГЇГ®Г°ГІГі.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Работаю". [/s id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГђГ ГЎГ®ГІГ Гѕ". [/s id]', -1)
         end
     end
 end
@@ -314,9 +314,9 @@ function predup(param)
 id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Предупредил игрока.')
+                    sampSendChat('/ans '..id..' ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¤ГЁГ« ГЁГЈГ°Г®ГЄГ .')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Предупредил игрока". [/predup id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¤ГЁГ« ГЁГЈГ°Г®ГЄГ ". [/predup id]', -1)
         end
     end
 end
@@ -325,9 +325,9 @@ function pred(param)
 id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Предупредил игрока.')
+                    sampSendChat('/ans '..id..' ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¤ГЁГ« ГЁГЈГ°Г®ГЄГ .')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Предупредил игрока". [/pred id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¤ГЁГ« ГЁГЈГ°Г®ГЄГ ". [/pred id]', -1)
         end
     end
 end
@@ -336,9 +336,9 @@ function stoppom(param)
 id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Не создавайте помеху игрокам.')
+                    sampSendChat('/ans '..id..' ГЌГҐ Г±Г®Г§Г¤Г ГўГ Г©ГІГҐ ГЇГ®Г¬ГҐГµГі ГЁГЈГ°Г®ГЄГ Г¬.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Не создавайте помеху". [/stoppom id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГҐ Г±Г®Г§Г¤Г ГўГ Г©ГІГҐ ГЇГ®Г¬ГҐГµГі". [/stoppom id]', -1)
         end
     end
 end
@@ -347,9 +347,9 @@ function infcost(param)
   id = tonumber(param)
   if param then
     if id ~= nil then
-                    sampSendChat('/ans '..id..'  Цена предметов зависит от самих игроков.')
+                    sampSendChat('/ans '..id..'  Г–ГҐГ­Г  ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў Г§Г ГўГЁГ±ГЁГІ Г®ГІ Г±Г Г¬ГЁГµ ГЁГЈГ°Г®ГЄГ®Гў.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Цена предметов зависит от игроков. [/infcost id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г–ГҐГ­Г  ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў Г§Г ГўГЁГ±ГЁГІ Г®ГІ ГЁГЈГ°Г®ГЄГ®Гў. [/infcost id]', -1)
         end
     end
 end
@@ -358,10 +358,10 @@ function otvetukrit(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' У Вас есть 15 секунд, чтобы найти укрытие!')
+                    sampSendChat('/ans '..id..' Г“ Г‚Г Г± ГҐГ±ГІГј 15 Г±ГҐГЄГіГ­Г¤, Г·ГІГ®ГЎГ» Г­Г Г©ГІГЁ ГіГЄГ°Г»ГІГЁГҐ!')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "В укрытие". [/ukrit id]', -1)
-						sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: {DC143C}На пвп картах бег разрешён!', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "Г‚ ГіГЄГ°Г»ГІГЁГҐ". [/ukrit id]', -1)
+						sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: {DC143C}ГЌГ  ГЇГўГЇ ГЄГ Г°ГІГ Гµ ГЎГҐГЈ Г°Г Г§Г°ГҐГёВёГ­!', -1)
         end
     end
 end
@@ -370,9 +370,9 @@ function sekret(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Мы не распространяем эту информацию.')
+                    sampSendChat('/ans '..id..' ГЊГ» Г­ГҐ Г°Г Г±ГЇГ°Г®Г±ГІГ°Г Г­ГїГҐГ¬ ГЅГІГі ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ.')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Не распространяем эту информацию". [/sekret id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГҐ Г°Г Г±ГЇГ°Г®Г±ГІГ°Г Г­ГїГҐГ¬ ГЅГІГі ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ". [/sekret id]', -1)
         end
     end
 end
@@ -381,9 +381,9 @@ function sorry(param)
     id = tonumber(param)
     if param then
         if id ~= nil then
-                    sampSendChat('/ans '..id..' Приносим свои извинения за предоставленные неудобства.')
+                    sampSendChat('/ans '..id..' ГЏГ°ГЁГ­Г®Г±ГЁГ¬ Г±ГўГ®ГЁ ГЁГ§ГўГЁГ­ГҐГ­ГЁГї Г§Г  ГЇГ°ГҐГ¤Г®Г±ГІГ ГўГ«ГҐГ­Г­Г»ГҐ Г­ГҐГіГ¤Г®ГЎГ±ГІГўГ .')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Приносим свои извинения за предоставленные неудобства". [/sorry id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ°ГЁГ­Г®Г±ГЁГ¬ Г±ГўГ®ГЁ ГЁГ§ГўГЁГ­ГҐГ­ГЁГї Г§Г  ГЇГ°ГҐГ¤Г®Г±ГІГ ГўГ«ГҐГ­Г­Г»ГҐ Г­ГҐГіГ¤Г®ГЎГ±ГІГўГ ". [/sorry id]', -1)
         end
     end
 end
@@ -392,9 +392,9 @@ function otvetchist(param)
   id = tonumber(param)
   if param then
     if id ~= nil then
-    sampSendChat('/ans '..id..' Не заметил нарушений от данного игрока.')
+    sampSendChat('/ans '..id..' ГЌГҐ Г§Г Г¬ГҐГІГЁГ« Г­Г Г°ГіГёГҐГ­ГЁГ© Г®ГІ Г¤Г Г­Г­Г®ГЈГ® ГЁГЈГ°Г®ГЄГ .')
    else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Нарушений не заметил". [/chist id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГ Г°ГіГёГҐГ­ГЁГ© Г­ГҐ Г§Г Г¬ГҐГІГЁГ«". [/chist id]', -1)
       end
      end
 end
@@ -403,9 +403,9 @@ function otvetinfclass(param)
 	 id = tonumber(param)
 	 if param then
 		 if id ~= nil then
-                sampSendChat('/ans '..id..' /info - Информация о классх. ')
+                sampSendChat('/ans '..id..' /info - Г€Г­ГґГ®Г°Г¬Г Г¶ГЁГї Г® ГЄГ«Г Г±Г±Гµ. ')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ на вопрос по классам. [/infclass id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ Г­Г  ГўГ®ГЇГ°Г®Г± ГЇГ® ГЄГ«Г Г±Г±Г Г¬. [/infclass id]', -1)
         end
     end
 end
@@ -414,9 +414,9 @@ function infpvp(param)
 	 id = tonumber(param)
 	 if param then
 		 if id ~= nil then
-                sampSendChat('/ans '..id..' Это карта типа "PVP", тут разрешено убивать выживших. ')
+                sampSendChat('/ans '..id..' ГќГІГ® ГЄГ Г°ГІГ  ГІГЁГЇГ  "PVP", ГІГіГІ Г°Г Г§Г°ГҐГёГҐГ­Г® ГіГЎГЁГўГ ГІГј ГўГ»Г¦ГЁГўГёГЁГµ. ')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "На пвп разрешено убивать выживших" [/infpvp id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГ  ГЇГўГЇ Г°Г Г§Г°ГҐГёГҐГ­Г® ГіГЎГЁГўГ ГІГј ГўГ»Г¦ГЁГўГёГЁГµ" [/infpvp id]', -1)
         end
     end
 end
@@ -425,9 +425,9 @@ function stopofftop(param)
 	 id = tonumber(param)
 	 if param then
 		 if id ~= nil then
-                sampSendChat('/ans '..id..' Не используйте репорт для общения. ')
+                sampSendChat('/ans '..id..' ГЌГҐ ГЁГ±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ Г°ГҐГЇГ®Г°ГІ Г¤Г«Гї Г®ГЎГ№ГҐГ­ГЁГї. ')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Не используйте репорт для общения" [/stopofftop id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГҐ ГЁГ±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ Г°ГҐГЇГ®Г°ГІ Г¤Г«Гї Г®ГЎГ№ГҐГ­ГЁГї" [/stopofftop id]', -1)
         end
     end
 end
@@ -436,9 +436,9 @@ function google(param)
 	 id = tonumber(param)
 	 if param then
 		 if id ~= nil then
-                sampSendChat('/ans '..id..' Попробуйте найти эту информацию в интернете. ')
+                sampSendChat('/ans '..id..' ГЏГ®ГЇГ°Г®ГЎГіГ©ГІГҐ Г­Г Г©ГІГЁ ГЅГІГі ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ Гў ГЁГ­ГІГҐГ°Г­ГҐГІГҐ. ')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Попробуйте найти эту информацию в интернете" [/google id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ®ГЇГ°Г®ГЎГіГ©ГІГҐ Г­Г Г©ГІГЁ ГЅГІГі ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ Гў ГЁГ­ГІГҐГ°Г­ГҐГІГҐ" [/google id]', -1)
         end
     end
 end
@@ -447,9 +447,9 @@ function stopblock(param)
 	 id = tonumber(param)
 	 if param then
 		 if id ~= nil then
-                sampSendChat('/ans '..id..' Перестаньте блокировать укрытие, иначе Вы будете наказаны. ')
+                sampSendChat('/ans '..id..' ГЏГҐГ°ГҐГ±ГІГ Г­ГјГІГҐ ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј ГіГЄГ°Г»ГІГЁГҐ, ГЁГ­Г Г·ГҐ Г‚Г» ГЎГіГ¤ГҐГІГҐ Г­Г ГЄГ Г§Г Г­Г». ')
                  else
-            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Прекратите блокировать укрытие" [/stopblock id]', -1)
+            sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ°ГҐГЄГ°Г ГІГЁГІГҐ ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј ГіГЄГ°Г»ГІГЁГҐ" [/stopblock id]', -1)
         end
     end
 end
@@ -458,9 +458,9 @@ function otvetforum(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/ans '..id..' Напишите жалобу на форум forum-western-zm.ru .')
+				sampSendChat('/ans '..id..' ГЌГ ГЇГЁГёГЁГІГҐ Г¦Г Г«Г®ГЎГі Г­Г  ГґГ®Г°ГіГ¬ forum-western-zm.ru .')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Жалобу на форум". [/forum id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "Г†Г Г«Г®ГЎГі Г­Г  ГґГ®Г°ГіГ¬". [/forum id]', -1)
 		end
     end
 end
@@ -469,9 +469,9 @@ function tehforum(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/ans '..id..' Обратитесь в тех.раздел на форуме.')
+				sampSendChat('/ans '..id..' ГЋГЎГ°Г ГІГЁГІГҐГ±Гј Гў ГІГҐГµ.Г°Г Г§Г¤ГҐГ« Г­Г  ГґГ®Г°ГіГ¬ГҐ.')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Обратитесь в тех.раздел на форуме". [/tehforum id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЋГЎГ°Г ГІГЁГІГҐГ±Гј Гў ГІГҐГµ.Г°Г Г§Г¤ГҐГ« Г­Г  ГґГ®Г°ГіГ¬ГҐ". [/tehforum id]', -1)
 		end
     end
 end
@@ -480,9 +480,9 @@ function tut(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/ans '..id..' Вы тут? Начинайте игру, иначе Вы будете кикнуты.')
+				sampSendChat('/ans '..id..' Г‚Г» ГІГіГІ? ГЌГ Г·ГЁГ­Г Г©ГІГҐ ГЁГЈГ°Гі, ГЁГ­Г Г·ГҐ Г‚Г» ГЎГіГ¤ГҐГІГҐ ГЄГЁГЄГ­ГіГІГ».')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Начинайте игру". [/tut id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЌГ Г·ГЁГ­Г Г©ГІГҐ ГЁГЈГ°Гі". [/tut id]', -1)
 		end
     end
 end
@@ -491,24 +491,24 @@ function prohod(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/ans '..id..' Проходите карту, иначе Вы будете кикнуты за непрохождение карты.')
+				sampSendChat('/ans '..id..' ГЏГ°Г®ГµГ®Г¤ГЁГІГҐ ГЄГ Г°ГІГі, ГЁГ­Г Г·ГҐ Г‚Г» ГЎГіГ¤ГҐГІГҐ ГЄГЁГЄГ­ГіГІГ» Г§Г  Г­ГҐГЇГ°Г®ГµГ®Г¦Г¤ГҐГ­ГЁГҐ ГЄГ Г°ГІГ».')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Ответ "Проходите карту". [/prohod id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЋГІГўГҐГІ "ГЏГ°Г®ГµГ®Г¤ГЁГІГҐ ГЄГ Г°ГІГі". [/prohod id]', -1)
 		end
     end
 end
 
 ----------------------------------------------------------------------------------------
-----------------------------------------КИКИ ИГРОКОВ------------------------------------
+----------------------------------------ГЉГ€ГЉГ€ Г€ГѓГђГЋГЉГЋГ‚------------------------------------
 ----------------------------------------------------------------------------------------
 
 function heafk(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/kick '..id..' Афк без паузы (esc).')
+        sampSendChat('/kick '..id..' ГЂГґГЄ ГЎГҐГ§ ГЇГ ГіГ§Г» (esc).')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Кикнуть за афк без паузы [/afk id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЉГЁГЄГ­ГіГІГј Г§Г  Г ГґГЄ ГЎГҐГ§ ГЇГ ГіГ§Г» [/afk id]', -1)
 		end
 	end
 end
@@ -517,10 +517,10 @@ function begun(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/kick '..id..' Бег по карте.')
+        sampSendChat('/kick '..id..' ГЃГҐГЈ ГЇГ® ГЄГ Г°ГІГҐ.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Кикнуть за бег по карте [/beg id]', -1)
-		sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: {DC143C}На пвп картах бег разрешён!', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЉГЁГЄГ­ГіГІГј Г§Г  ГЎГҐГЈ ГЇГ® ГЄГ Г°ГІГҐ [/beg id]', -1)
+		sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: {DC143C}ГЌГ  ГЇГўГЇ ГЄГ Г°ГІГ Гµ ГЎГҐГЈ Г°Г Г§Г°ГҐГёВёГ­!', -1)
 		end
 	end
 end
@@ -529,9 +529,9 @@ function tksurvive(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/kick '..id..' ТК (Выживший).')
+        sampSendChat('/kick '..id..' Г’ГЉ (Г‚Г»Г¦ГЁГўГёГЁГ©).')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Кикнуть за тк (выживший) [/tks id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЉГЁГЄГ­ГіГІГј Г§Г  ГІГЄ (ГўГ»Г¦ГЁГўГёГЁГ©) [/tks id]', -1)
 		end
 	end
 end
@@ -540,9 +540,9 @@ function zapret(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/kick '..id..'  Запретное укрытие.')
+        sampSendChat('/kick '..id..'  Г‡Г ГЇГ°ГҐГІГ­Г®ГҐ ГіГЄГ°Г»ГІГЁГҐ.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Кикнуть за тк (выживший) [/zapret id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЉГЁГЄГ­ГіГІГј Г§Г  ГІГЄ (ГўГ»Г¦ГЁГўГёГЁГ©) [/zapret id]', -1)
 		end
 	end
 end
@@ -551,9 +551,9 @@ function pomeha(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/kick '..id..' Помеха.')
+        sampSendChat('/kick '..id..' ГЏГ®Г¬ГҐГµГ .')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Кикнуть за помеху [/pomeha id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЉГЁГЄГ­ГіГІГј Г§Г  ГЇГ®Г¬ГҐГµГі [/pomeha id]', -1)
 		end
 	end
 end
@@ -562,24 +562,24 @@ function neproh(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/kick '..id..' Непрохождение карты.')
+        sampSendChat('/kick '..id..' ГЌГҐГЇГ°Г®ГµГ®Г¦Г¤ГҐГ­ГЁГҐ ГЄГ Г°ГІГ».')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Кикнуть за непрохождение карты [/neproh id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: ГЉГЁГЄГ­ГіГІГј Г§Г  Г­ГҐГЇГ°Г®ГµГ®Г¦Г¤ГҐГ­ГЁГҐ ГЄГ Г°ГІГ» [/neproh id]', -1)
 		end
 	end
 end
 
 ----------------------------------------------------------------------------------------
-----------------------------------------ВЫДАЧА МУТОВ------------------------------------
+----------------------------------------Г‚Г›Г„ГЂГ—ГЂ ГЊГ“Г’ГЋГ‚------------------------------------
 ----------------------------------------------------------------------------------------
 
 function oskproject(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/mute '..id..' 60 Оскорбление проекта.')
+				sampSendChat('/mute '..id..' 60 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГҐГЄГІГ .')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за оск. проекта. [/oskproject id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄ. ГЇГ°Г®ГҐГЄГІГ . [/oskproject id]', -1)
 		end
     end
 end
@@ -588,9 +588,9 @@ function capsoskproject(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/mute '..id..' 70 Оскорбление проекта + капс.')
+				sampSendChat('/mute '..id..' 70 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГҐГЄГІГ  + ГЄГ ГЇГ±.')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за оск. проекта + капс [/capsoskproject id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄ. ГЇГ°Г®ГҐГЄГІГ  + ГЄГ ГЇГ± [/capsoskproject id]', -1)
 		end
     end
 end
@@ -599,9 +599,9 @@ function oskprojectcaps(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/mute '..id..' 70 Оскорбление проекта + капс.')
+				sampSendChat('/mute '..id..' 70 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГҐГЄГІГ  + ГЄГ ГЇГ±.')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за оск. проекта + капс [/oskprojectcaps id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄ. ГЇГ°Г®ГҐГЄГІГ  + ГЄГ ГЇГ± [/oskprojectcaps id]', -1)
 		end
     end
 end
@@ -612,7 +612,7 @@ function caps(param)
 		if id ~= nil then
 			sampSendChat('/mute '..id..' 10 Caps.')
 		else
-				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за капс. [/caps id]', -1)
+				sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГЄГ ГЇГ±. [/caps id]', -1)
 		end
 	end
 end
@@ -621,9 +621,9 @@ function upomproject(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/mute '..id..' 60 Упоминание сторонних проектов.')
+				sampSendChat('/mute '..id..' 60 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г±ГІГ®Г°Г®Г­Г­ГЁГµ ГЇГ°Г®ГҐГЄГІГ®Гў.')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за упоминание сторонних проектов. [/upomproject id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г±ГІГ®Г°Г®Г­Г­ГЁГµ ГЇГ°Г®ГҐГЄГІГ®Гў. [/upomproject id]', -1)
 		end
     end
 end
@@ -632,9 +632,9 @@ function spam(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/mute '..id..' 30 Спам.')
+				sampSendChat('/mute '..id..' 30 Г‘ГЇГ Г¬.')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за спам. [/spam id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  Г±ГЇГ Г¬. [/spam id]', -1)
 		end
     end
 end
@@ -643,9 +643,9 @@ function obman(param)
 	id = tonumber(param)
     if param then
         if id ~= nil then
-				sampSendChat('/mute '..id..' 30 Обман игроков.')
+				sampSendChat('/mute '..id..' 30 ГЋГЎГ¬Г Г­ ГЁГЈГ°Г®ГЄГ®Гў.')
 								  		 else
-			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за обман игроков. [/obman id]', -1)
+			sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  Г®ГЎГ¬Г Г­ ГЁГЈГ°Г®ГЄГ®Гў. [/obman id]', -1)
 		end
     end
 end
@@ -654,9 +654,9 @@ function upominul(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 180 Упоминание родных.')
+        sampSendChat('/mute '..id..' 180 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за упоминание родных [/upom id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ [/upom id]', -1)
 		end
 	end
 end
@@ -665,9 +665,9 @@ function mq(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 180 Упоминание родных.')
+        sampSendChat('/mute '..id..' 180 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за упоминание родных [/mq id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ [/mq id]', -1)
 		end
 	end
 end
@@ -676,9 +676,9 @@ function capsmq(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 190 Упоминание родных + Капс.')
+        sampSendChat('/mute '..id..' 190 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ±.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за упом. родных + Капс [/capsmq id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГіГЇГ®Г¬. Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ± [/capsmq id]', -1)
 		end
 	end
 end
@@ -687,9 +687,9 @@ function mqcaps(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 190 Упоминание родных + Капс.')
+        sampSendChat('/mute '..id..' 190 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ±.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за упом. родных + Капс [/mqcaps id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГіГЇГ®Г¬. Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ± [/mqcaps id]', -1)
 		end
 	end
 end
@@ -698,9 +698,9 @@ function capsupom(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 190 Упоминание родных + Капс.')
+        sampSendChat('/mute '..id..' 190 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ±.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за упом. родных + Капс [/capsupom id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГіГЇГ®Г¬. Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ± [/capsupom id]', -1)
 		end
 	end
 end
@@ -709,9 +709,9 @@ function upomcaps(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 190 Упоминание родных + Капс.')
+        sampSendChat('/mute '..id..' 190 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ±.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать мут за упом. родных + Капс [/upomcaps id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј Г¬ГіГІ Г§Г  ГіГЇГ®Г¬. Г°Г®Г¤Г­Г»Гµ + ГЉГ ГЇГ± [/upomcaps id]', -1)
 		end
 	end
 end
@@ -720,9 +720,9 @@ function offtopinreport(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 10 Оффтоп в репорт. ')
+        sampSendChat('/mute '..id..' 10 ГЋГґГґГІГ®ГЇ Гў Г°ГҐГЇГ®Г°ГІ. ')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за оффтоп в репорт [/offtop id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  Г®ГґГґГІГ®ГЇ Гў Г°ГҐГЇГ®Г°ГІ [/offtop id]', -1)
 		end
 	end
 end
@@ -731,9 +731,9 @@ function oskorbil(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 30 Оскорбление игроков')
+        sampSendChat('/mute '..id..' 30 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ®Гў')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за оск. игроков [/osk id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄ. ГЁГЈГ°Г®ГЄГ®Гў [/osk id]', -1)
 		end
 	end
 end
@@ -742,9 +742,9 @@ function capsosk(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 40 Оск. игроков + Капс.')
+        sampSendChat('/mute '..id..' 40 ГЋГ±ГЄ. ГЁГЈГ°Г®ГЄГ®Гў + ГЉГ ГЇГ±.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за капс + оск. [/capsosk id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  ГЄГ ГЇГ± + Г®Г±ГЄ. [/capsosk id]', -1)
 		end
 	end
 end
@@ -753,9 +753,9 @@ function adminaosknyl(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 60 Оскорбление администрации.')
+        sampSendChat('/mute '..id..' 60 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за оскорбление Администрации [/admosk id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЂГ¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ [/admosk id]', -1)
 		end
 	end
 end
@@ -764,9 +764,9 @@ function oskadm(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 60 Оскорбление администрации.')
+        sampSendChat('/mute '..id..' 60 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за оскорбление Администрации [/oskadm id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЂГ¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ [/oskadm id]', -1)
 		end
 	end
 end
@@ -775,9 +775,9 @@ function capsoskadm(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 70 Оск.администрации + капс.')
+        sampSendChat('/mute '..id..' 70 ГЋГ±ГЄ.Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ + ГЄГ ГЇГ±.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за оск. адм. + капс [/capsoskadm id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄ. Г Г¤Г¬. + ГЄГ ГЇГ± [/capsoskadm id]', -1)
 		end
 	end
 end
@@ -786,9 +786,9 @@ function oskadmcaps(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 70 Оск.администрации + капс.')
+        sampSendChat('/mute '..id..' 70 ГЋГ±ГЄ.Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ + ГЄГ ГЇГ±.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за оск. адм. + капс [/oskadmcaps id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  Г®Г±ГЄ. Г Г¤Г¬. + ГЄГ ГЇГ± [/oskadmcaps id]', -1)
 		end
 	end
 end
@@ -797,24 +797,24 @@ function pustoi(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/mute '..id..' 20 Пустые сообщения.')
+        sampSendChat('/mute '..id..' 20 ГЏГіГ±ГІГ»ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГї.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Дать мут за пустые сообщения [/pust id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г„Г ГІГј Г¬ГіГІ Г§Г  ГЇГіГ±ГІГ»ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГї [/pust id]', -1)
 		end
 	end
 end
 
 ----------------------------------------------------------------------------------------
-----------------------------------------ВЫДАЧА ВАРНОВ------------------------------------
+----------------------------------------Г‚Г›Г„ГЂГ—ГЂ Г‚ГЂГђГЌГЋГ‚------------------------------------
 ----------------------------------------------------------------------------------------
 
 function bag(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/warn '..id..' Багоюз.')
+        sampSendChat('/warn '..id..' ГЃГ ГЈГ®ГѕГ§.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать варн за багоюз [/bag id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  ГЎГ ГЈГ®ГѕГ§ [/bag id]', -1)
 		end
 	end
 end
@@ -823,9 +823,9 @@ function tkzombie(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/warn '..id..' ТК (Зомби).')
+        sampSendChat('/warn '..id..' Г’ГЉ (Г‡Г®Г¬ГЎГЁ).')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать варн за ТК (зомби) [/tkz id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  Г’ГЉ (Г§Г®Г¬ГЎГЁ) [/tkz id]', -1)
 		end
 	end
 end
@@ -834,9 +834,9 @@ function tks2(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/warn '..id..' ТК .')
+        sampSendChat('/warn '..id..' Г’ГЉ .')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать варн за ТК [/tks2 id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  Г’ГЉ [/tks2 id]', -1)
 		end
 	end
 end
@@ -845,9 +845,9 @@ function team(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/warn '..id..' Командная игра зомби с выжившим .')
+        sampSendChat('/warn '..id..' ГЉГ®Г¬Г Г­Г¤Г­Г Гї ГЁГЈГ°Г  Г§Г®Г¬ГЎГЁ Г± ГўГ»Г¦ГЁГўГёГЁГ¬ .')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать варн за совместную игру зомби с выжившем [/team id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  Г±Г®ГўГ¬ГҐГ±ГІГ­ГіГѕ ГЁГЈГ°Гі Г§Г®Г¬ГЎГЁ Г± ГўГ»Г¦ГЁГўГёГҐГ¬ [/team id]', -1)
 		end
 	end
 end
@@ -856,9 +856,9 @@ function wafk(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/warn '..id..' Афк в бою')
+        sampSendChat('/warn '..id..' ГЂГґГЄ Гў ГЎГ®Гѕ')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать варн за афк в бою [/wafk id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  Г ГґГЄ Гў ГЎГ®Гѕ [/wafk id]', -1)
 		end
 	end
 end
@@ -867,9 +867,9 @@ function rz(param)
 nick = tostring(param)
 if param then
     if nick ~= nil then
-        sampSendChat('/offwarn '..nick..' Выход Р.З')
+        sampSendChat('/offwarn '..nick..' Г‚Г»ГµГ®Г¤ Гђ.Г‡')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать варн за выход Р.З [/rz nick]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  ГўГ»ГµГ®Г¤ Гђ.Г‡ [/rz nick]', -1)
 		end
 	end
 end
@@ -878,38 +878,38 @@ function teampvp(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/warn '..id..' Командная игра на PVP')
+        sampSendChat('/warn '..id..' ГЉГ®Г¬Г Г­Г¤Г­Г Гї ГЁГЈГ°Г  Г­Г  PVP')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать варн за командную игру на PVP [/teampvp id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  ГЄГ®Г¬Г Г­Г¤Г­ГіГѕ ГЁГЈГ°Гі Г­Г  PVP [/teampvp id]', -1)
 		end
 	end
 end
 
 ----------------------------------------------------------------------------------------
-----------------------------------------ВЫДАЧА БАНОВ------------------------------------
+----------------------------------------Г‚Г›Г„ГЂГ—ГЂ ГЃГЂГЌГЋГ‚------------------------------------
 ----------------------------------------------------------------------------------------
 
 function cheat(param)
 id = tonumber(param)
 if param then
     if id ~= nil then
-        sampSendChat('/ban '..id..' 30 Чит.')
+        sampSendChat('/ban '..id..' 30 Г—ГЁГІ.')
 		else
-    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Выдать бан за использование читов [/cheat id]', -1)
+    sampAddChatMessage('{ffffff}* [{0088ff}SFA{ffffff}]: Г‚Г»Г¤Г ГІГј ГЎГ Г­ Г§Г  ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГҐ Г·ГЁГІГ®Гў [/cheat id]', -1)
 		end
 	end
 end
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------ОСТАЛЬНОЕ---------------------------------------------------------------------------------------------------
+---------------------------------------------------------ГЋГ‘Г’ГЂГ‹ГњГЌГЋГ…---------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function rt(param)
 lua_thread.create(function()
 if param then
-sampSendChat('/msg Заметили читера? Есть вопросы по игровому процессу?')
+sampSendChat('/msg Г‡Г Г¬ГҐГІГЁГ«ГЁ Г·ГЁГІГҐГ°Г ? Г…Г±ГІГј ГўГ®ГЇГ°Г®Г±Г» ГЇГ® ГЁГЈГ°Г®ГўГ®Г¬Гі ГЇГ°Г®Г¶ГҐГ±Г±Гі?')
 wait(500)
-sampSendChat('/msg Администрация сервера всегда готова помочь Вам [/report]')
+sampSendChat('/msg ГЂГ¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГї Г±ГҐГ°ГўГҐГ°Г  ГўГ±ГҐГЈГ¤Г  ГЈГ®ГІГ®ГўГ  ГЇГ®Г¬Г®Г·Гј Г‚Г Г¬ [/report]')
 else
 end
 end)
@@ -918,13 +918,13 @@ end
 function ob(param)
 lua_thread.create(function()
 if param then
-sampSendChat('/msg Уважаемые игроки!')
+sampSendChat('/msg Г“ГўГ Г¦Г ГҐГ¬Г»ГҐ ГЁГЈГ°Г®ГЄГЁ!')
 wait(500)
-sampSendChat('/msg для проведения безопасных обменов предметами и аренды без риска.')
+sampSendChat('/msg Г¤Г«Гї ГЇГ°Г®ГўГҐГ¤ГҐГ­ГЁГї ГЎГҐГ§Г®ГЇГ Г±Г­Г»Гµ Г®ГЎГ¬ГҐГ­Г®Гў ГЇГ°ГҐГ¤Г¬ГҐГІГ Г¬ГЁ ГЁ Г Г°ГҐГ­Г¤Г» ГЎГҐГ§ Г°ГЁГ±ГЄГ .')
 wait(500)
-sampSendChat('/msg Ознакомьтесь с темой "Обмен/аренда предметов" в разделе Amazing ZM.')
+sampSendChat('/msg ГЋГ§Г­Г ГЄГ®Г¬ГјГІГҐГ±Гј Г± ГІГҐГ¬Г®Г© "ГЋГЎГ¬ГҐГ­/Г Г°ГҐГ­Г¤Г  ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў" Гў Г°Г Г§Г¤ГҐГ«ГҐ Amazing ZM.')
 wait(500)
-sampSendChat('/msg Наш форум [ forum.amazing-zm.ru ]')
+sampSendChat('/msg ГЌГ Гё ГґГ®Г°ГіГ¬ [ forum.amazing-zm.ru ]')
 else
 end
 end)
@@ -933,13 +933,13 @@ end
 function nenaeb(param)
 lua_thread.create(function()
 if param then
-sampSendChat('/msg Уважаемые игроки!')
+sampSendChat('/msg Г“ГўГ Г¦Г ГҐГ¬Г»ГҐ ГЁГЈГ°Г®ГЄГЁ!')
 wait(500)
-sampSendChat('/msg Проверяйте данные трейда перед принятием предложения!')
+sampSendChat('/msg ГЏГ°Г®ГўГҐГ°ГїГ©ГІГҐ Г¤Г Г­Г­Г»ГҐ ГІГ°ГҐГ©Г¤Г  ГЇГҐГ°ГҐГ¤ ГЇГ°ГЁГ­ГїГІГЁГҐГ¬ ГЇГ°ГҐГ¤Г«Г®Г¦ГҐГ­ГЁГї!')
 wait(500)
-sampSendChat('/msg Зачастую происходят обманы, виной которых только Ваша невнимательность!')
+sampSendChat('/msg Г‡Г Г·Г Г±ГІГіГѕ ГЇГ°Г®ГЁГ±ГµГ®Г¤ГїГІ Г®ГЎГ¬Г Г­Г», ГўГЁГ­Г®Г© ГЄГ®ГІГ®Г°Г»Гµ ГІГ®Г«ГјГЄГ® Г‚Г ГёГ  Г­ГҐГўГ­ГЁГ¬Г ГІГҐГ«ГјГ­Г®Г±ГІГј!')
 wait(500)
-sampSendChat('/msg Никогда не спешите завершать сделку!')
+sampSendChat('/msg ГЌГЁГЄГ®ГЈГ¤Г  Г­ГҐ Г±ГЇГҐГёГЁГІГҐ Г§Г ГўГҐГ°ГёГ ГІГј Г±Г¤ГҐГ«ГЄГі!')
 else
 end
 end)
@@ -948,8 +948,8 @@ end
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------MENU--------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-function apply_custom_style() --[[имгуи стиль.. стоит андровира, но можно
-    поставить и другую.. НО часто их выкладывают в C++ тобишь надо будет перевести в lua (это изи)]]
+function apply_custom_style() --[[ГЁГ¬ГЈГіГЁ Г±ГІГЁГ«Гј.. Г±ГІГ®ГЁГІ Г Г­Г¤Г°Г®ГўГЁГ°Г , Г­Г® Г¬Г®Г¦Г­Г®
+    ГЇГ®Г±ГІГ ГўГЁГІГј ГЁ Г¤Г°ГіГЈГіГѕ.. ГЌГЋ Г·Г Г±ГІГ® ГЁГµ ГўГ»ГЄГ«Г Г¤Г»ГўГ ГѕГІ Гў C++ ГІГ®ГЎГЁГёГј Г­Г Г¤Г® ГЎГіГ¤ГҐГІ ГЇГҐГ°ГҐГўГҐГ±ГІГЁ Гў lua (ГЅГІГ® ГЁГ§ГЁ)]]
 			imgui.SwitchContext()
 	local style = imgui.GetStyle()
 	local colors = style.Colors
@@ -1017,80 +1017,80 @@ function imgui.OnDrawFrame()
 if mainwindow.v then window1.v = false window2.v = false
 imgui.SetNextWindowSize(imgui.ImVec2(720, 555), imgui.Cond.Always)
 imgui.SetNextWindowPos(imgui.ImVec2(resX / 2, resY / 2), imgui.Cond.Once, imgui.ImVec2(0.5, 0.5))
-imgui.Begin(u8'Главное меню |SFA| .', mainwindow, img_state) --imgui.WindowFlags.NoResize)
+imgui.Begin(u8'ГѓГ«Г ГўГ­Г®ГҐ Г¬ГҐГ­Гѕ |SFA| .', mainwindow, img_state) --imgui.WindowFlags.NoResize)
 		imgui.BeginChild('#MM', imgui.ImVec2(720,500), true)
-		local nakaz = [[Блокировка чата:
-• /offtop - Оффтоп в репорт.
-• /osk - Оскорбление игроков.
-• /admosk - Оскорбление администрации.
-• /capsoskadm, /oskadmcaps - Оск. администрации + капс.
-• /oskproject - Оскорбление проекта.
-• /oskprojectcaps, /capsoskproject - Окс. проекта + капс.
-• /upom, /mq - Упоминание родных.
-• /capsmq, /mqcaps - Упоминание родных + капс.
-• /capsupom, upomcaps - Упоминание родных + капс.
-• /pust - Пустые сообщения.
-• /caps - Капс.
-• /capsosk - Капс + оск.
-• /upomproject - Упоминание сторонних проектов.
-• /obman - Обман игроков.
+		local nakaz = [[ГЃГ«Г®ГЄГЁГ°Г®ГўГЄГ  Г·Г ГІГ :
+В• /offtop - ГЋГґГґГІГ®ГЇ Гў Г°ГҐГЇГ®Г°ГІ.
+В• /osk - ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ®Гў.
+В• /admosk - ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ.
+В• /capsoskadm, /oskadmcaps - ГЋГ±ГЄ. Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ + ГЄГ ГЇГ±.
+В• /oskproject - ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГҐГЄГІГ .
+В• /oskprojectcaps, /capsoskproject - ГЋГЄГ±. ГЇГ°Г®ГҐГЄГІГ  + ГЄГ ГЇГ±.
+В• /upom, /mq - Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ.
+В• /capsmq, /mqcaps - Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ + ГЄГ ГЇГ±.
+В• /capsupom, upomcaps - Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ + ГЄГ ГЇГ±.
+В• /pust - ГЏГіГ±ГІГ»ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГї.
+В• /caps - ГЉГ ГЇГ±.
+В• /capsosk - ГЉГ ГЇГ± + Г®Г±ГЄ.
+В• /upomproject - Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г±ГІГ®Г°Г®Г­Г­ГЁГµ ГЇГ°Г®ГҐГЄГІГ®Гў.
+В• /obman - ГЋГЎГ¬Г Г­ ГЁГЈГ°Г®ГЄГ®Гў.
 
-Кик игрока:
-• /tks - Team Kill (Выживший/Survivor).
-• /neproh - Непрохождение карты.
-• /beg - Бег по карте.
-• /afk - Афк без паузы.
-• /pomeha - Помеха.
-• /zapret - Запретная нычка.
+ГЉГЁГЄ ГЁГЈГ°Г®ГЄГ :
+В• /tks - Team Kill (Г‚Г»Г¦ГЁГўГёГЁГ©/Survivor).
+В• /neproh - ГЌГҐГЇГ°Г®ГµГ®Г¦Г¤ГҐГ­ГЁГҐ ГЄГ Г°ГІГ».
+В• /beg - ГЃГҐГЈ ГЇГ® ГЄГ Г°ГІГҐ.
+В• /afk - ГЂГґГЄ ГЎГҐГ§ ГЇГ ГіГ§Г».
+В• /pomeha - ГЏГ®Г¬ГҐГµГ .
+В• /zapret - Г‡Г ГЇГ°ГҐГІГ­Г Гї Г­Г»Г·ГЄГ .
 
-Предупреждения:
-• /bag - Багоюз.
-• /wafk - Афк в бою.
-• /tkz - Team Kill (Зомби/Zombie).
-• /tks2 - ТК выживших
-• /team - Выдать варн за совместную игру зомби с выжившем
-• /rz - Выдать варн за выход Р.З
-• /teampvp - Выдать варн за командную игру на PVP
+ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¦Г¤ГҐГ­ГЁГї:
+В• /bag - ГЃГ ГЈГ®ГѕГ§.
+В• /wafk - ГЂГґГЄ Гў ГЎГ®Гѕ.
+В• /tkz - Team Kill (Г‡Г®Г¬ГЎГЁ/Zombie).
+В• /tks2 - Г’ГЉ ГўГ»Г¦ГЁГўГёГЁГµ
+В• /team - Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  Г±Г®ГўГ¬ГҐГ±ГІГ­ГіГѕ ГЁГЈГ°Гі Г§Г®Г¬ГЎГЁ Г± ГўГ»Г¦ГЁГўГёГҐГ¬
+В• /rz - Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  ГўГ»ГµГ®Г¤ Гђ.Г‡
+В• /teampvp - Г‚Г»Г¤Г ГІГј ГўГ Г°Г­ Г§Г  ГЄГ®Г¬Г Г­Г¤Г­ГіГѕ ГЁГЈГ°Гі Г­Г  PVP
 
 
-Блокировка аккаунта:
-• /cheat - Использование читов]]
+ГЃГ«Г®ГЄГЁГ°Г®ГўГЄГ  Г ГЄГЄГ ГіГ­ГІГ :
+В• /cheat - Г€Г±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГҐ Г·ГЁГІГ®Гў]]
 		imgui.Text(u8(nakaz))
 		imgui.Text('---------------------------------------------------------------')
-local otv = [[Ответы по репорту:
-• /da, /yes -  Да.
-• /net, /no -   Нет.
-• /zm - Данный игрок является зомби.
-• /hz - Не могу ответить на ваш вопрос.
-• /nepon - Не понял вашего вопроса.
-• /pri -   Приятной игры :)
-• /pomog - Помог Вам.
-• /predup, /pred - Предупредил игрока.
-• /spect, /s -   Работаю по Вашей жалобе.
-• /nakazan - Игрок наказан.
-• /chist -   Не наблюдаю нарушений от данного игрока.
-• /stoptk - Прекратите ТК.
-• /sekret - Не распространяем эту информацию.
-• /ukrit -   Бегите скорее в укрытие.
-• /prohod - Проходите карту.
-• /tut - Начинайте игру.
-• /forum -   Напишите жалобу на форум.
-• /prest -   Для получения престижа.
-• /infclass -    Подробная инфорция о классах.
-• /inftrade - Ответ на вопрос "Как продать вещи?"
-• /infcost - Цена предметов зависит от игроков.
-• /infpvp - На пвп карте разрешено убивать выживших
-• /stopblock - Прекратите блокировать укрытие.
-• /stopofftop - Не используйте репорт для общения.
-• /stopzapret - Вы находитесь в запретном укрытии.
-• /tehforum - Обратитесь в тех.раздел на форуме
-• /google - Найдите эту информацию в интернете
-• /sorry - Приносим свои извинения за предоставленные неудобства
-•
+local otv = [[ГЋГІГўГҐГІГ» ГЇГ® Г°ГҐГЇГ®Г°ГІГі:
+В• /da, /yes -  Г„Г .
+В• /net, /no -   ГЌГҐГІ.
+В• /zm - Г„Г Г­Г­Г»Г© ГЁГЈГ°Г®ГЄ ГїГўГ«ГїГҐГІГ±Гї Г§Г®Г¬ГЎГЁ.
+В• /hz - ГЌГҐ Г¬Г®ГЈГі Г®ГІГўГҐГІГЁГІГј Г­Г  ГўГ Гё ГўГ®ГЇГ°Г®Г±.
+В• /nepon - ГЌГҐ ГЇГ®Г­ГїГ« ГўГ ГёГҐГЈГ® ГўГ®ГЇГ°Г®Г±Г .
+В• /pri -   ГЏГ°ГЁГїГІГ­Г®Г© ГЁГЈГ°Г» :)
+В• /pomog - ГЏГ®Г¬Г®ГЈ Г‚Г Г¬.
+В• /predup, /pred - ГЏГ°ГҐГ¤ГіГЇГ°ГҐГ¤ГЁГ« ГЁГЈГ°Г®ГЄГ .
+В• /spect, /s -   ГђГ ГЎГ®ГІГ Гѕ ГЇГ® Г‚Г ГёГҐГ© Г¦Г Г«Г®ГЎГҐ.
+В• /nakazan - Г€ГЈГ°Г®ГЄ Г­Г ГЄГ Г§Г Г­.
+В• /chist -   ГЌГҐ Г­Г ГЎГ«ГѕГ¤Г Гѕ Г­Г Г°ГіГёГҐГ­ГЁГ© Г®ГІ Г¤Г Г­Г­Г®ГЈГ® ГЁГЈГ°Г®ГЄГ .
+В• /stoptk - ГЏГ°ГҐГЄГ°Г ГІГЁГІГҐ Г’ГЉ.
+В• /sekret - ГЌГҐ Г°Г Г±ГЇГ°Г®Г±ГІГ°Г Г­ГїГҐГ¬ ГЅГІГі ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ.
+В• /ukrit -   ГЃГҐГЈГЁГІГҐ Г±ГЄГ®Г°ГҐГҐ Гў ГіГЄГ°Г»ГІГЁГҐ.
+В• /prohod - ГЏГ°Г®ГµГ®Г¤ГЁГІГҐ ГЄГ Г°ГІГі.
+В• /tut - ГЌГ Г·ГЁГ­Г Г©ГІГҐ ГЁГЈГ°Гі.
+В• /forum -   ГЌГ ГЇГЁГёГЁГІГҐ Г¦Г Г«Г®ГЎГі Г­Г  ГґГ®Г°ГіГ¬.
+В• /prest -   Г„Г«Гї ГЇГ®Г«ГіГ·ГҐГ­ГЁГї ГЇГ°ГҐГ±ГІГЁГ¦Г .
+В• /infclass -    ГЏГ®Г¤Г°Г®ГЎГ­Г Гї ГЁГ­ГґГ®Г°Г¶ГЁГї Г® ГЄГ«Г Г±Г±Г Гµ.
+В• /inftrade - ГЋГІГўГҐГІ Г­Г  ГўГ®ГЇГ°Г®Г± "ГЉГ ГЄ ГЇГ°Г®Г¤Г ГІГј ГўГҐГ№ГЁ?"
+В• /infcost - Г–ГҐГ­Г  ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў Г§Г ГўГЁГ±ГЁГІ Г®ГІ ГЁГЈГ°Г®ГЄГ®Гў.
+В• /infpvp - ГЌГ  ГЇГўГЇ ГЄГ Г°ГІГҐ Г°Г Г§Г°ГҐГёГҐГ­Г® ГіГЎГЁГўГ ГІГј ГўГ»Г¦ГЁГўГёГЁГµ
+В• /stopblock - ГЏГ°ГҐГЄГ°Г ГІГЁГІГҐ ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј ГіГЄГ°Г»ГІГЁГҐ.
+В• /stopofftop - ГЌГҐ ГЁГ±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ Г°ГҐГЇГ®Г°ГІ Г¤Г«Гї Г®ГЎГ№ГҐГ­ГЁГї.
+В• /stopzapret - Г‚Г» Г­Г ГµГ®Г¤ГЁГІГҐГ±Гј Гў Г§Г ГЇГ°ГҐГІГ­Г®Г¬ ГіГЄГ°Г»ГІГЁГЁ.
+В• /tehforum - ГЋГЎГ°Г ГІГЁГІГҐГ±Гј Гў ГІГҐГµ.Г°Г Г§Г¤ГҐГ« Г­Г  ГґГ®Г°ГіГ¬ГҐ
+В• /google - ГЌГ Г©Г¤ГЁГІГҐ ГЅГІГі ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГѕ Гў ГЁГ­ГІГҐГ°Г­ГҐГІГҐ
+В• /sorry - ГЏГ°ГЁГ­Г®Г±ГЁГ¬ Г±ГўГ®ГЁ ГЁГ§ГўГЁГ­ГҐГ­ГЁГї Г§Г  ГЇГ°ГҐГ¤Г®Г±ГІГ ГўГ«ГҐГ­Г­Г»ГҐ Г­ГҐГіГ¤Г®ГЎГ±ГІГўГ 
+В•
 
-Другое:
-• /rt - Написать в общий чат о репорте.
-• /nenaeb - Написать в общий чат о внимательности при трейдах.
+Г„Г°ГіГЈГ®ГҐ:
+В• /rt - ГЌГ ГЇГЁГ±Г ГІГј Гў Г®ГЎГ№ГЁГ© Г·Г ГІ Г® Г°ГҐГЇГ®Г°ГІГҐ.
+В• /nenaeb - ГЌГ ГЇГЁГ±Г ГІГј Гў Г®ГЎГ№ГЁГ© Г·Г ГІ Г® ГўГ­ГЁГ¬Г ГІГҐГ«ГјГ­Г®Г±ГІГЁ ГЇГ°ГЁ ГІГ°ГҐГ©Г¤Г Гµ.
 ]]
 	imgui.Text(u8(otv))
 
@@ -1100,12 +1100,12 @@ end
 end
 end
 
-			function window() -- функция вызова главного окна..
+			function window() -- ГґГіГ­ГЄГ¶ГЁГї ГўГ»Г§Г®ГўГ  ГЈГ«Г ГўГ­Г®ГЈГ® Г®ГЄГ­Г ..
 			mainwindow.v = not mainwindow.v
 			end
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------Прочая поебота-------------------------------------------------------------------------------------------------
+------------------------------------------------ГЏГ°Г®Г·Г Гї ГЇГ®ГҐГЎГ®ГІГ -------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function sampGetPlayerIdByNickname(nick)
@@ -1117,7 +1117,7 @@ end
 
 
 ------------------------------------------------------------------------------------------
-----------------------------------------АВТООБНОВЛЕНИЕ------------------------------------
+----------------------------------------ГЂГ‚Г’ГЋГЋГЃГЌГЋГ‚Г‹Г…ГЌГ€Г…------------------------------------
 ------------------------------------------------------------------------------------------
 
 
@@ -1140,21 +1140,21 @@ function autoupdate(json_url, prefix, url)
               lua_thread.create(function(prefix)
                 local dlstatus = require('moonloader').download_status
                 local color = -1
-                sampAddChatMessage((prefix..'Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion), color)
+                sampAddChatMessage((prefix..'ГЋГЎГ­Г Г°ГіГ¦ГҐГ­Г® Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. ГЏГ»ГІГ ГѕГ±Гј Г®ГЎГ­Г®ГўГЁГІГјГ±Гї c '..thisScript().version..' Г­Г  '..updateversion), color)
                 wait(250)
                 downloadUrlToFile(updatelink, thisScript().path,
                   function(id3, status1, p13, p23)
                     if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                      print(string.format('Загружено %d из %d.', p13, p23))
+                      print(string.format('Г‡Г ГЈГ°ГіГ¦ГҐГ­Г® %d ГЁГ§ %d.', p13, p23))
                     elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-                      print('Загрузка обновления завершена.')
-                      sampAddChatMessage((prefix..'Обновление завершено!'), color)
+                      print('Г‡Г ГЈГ°ГіГ§ГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї Г§Г ГўГҐГ°ГёГҐГ­Г .')
+                      sampAddChatMessage((prefix..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г§Г ГўГҐГ°ГёГҐГ­Г®!'), color)
                       goupdatestatus = true
                       lua_thread.create(function() wait(500) thisScript():reload() end)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage((prefix..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                        sampAddChatMessage((prefix..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГёГ«Г® Г­ГҐГіГ¤Г Г·Г­Г®. Г‡Г ГЇГіГ±ГЄГ Гѕ ГіГ±ГІГ Г°ГҐГўГёГіГѕ ГўГҐГ°Г±ГЁГѕ..'), color)
                         update = false
                       end
                     end
@@ -1164,11 +1164,11 @@ function autoupdate(json_url, prefix, url)
               )
             else
               update = false
-              print('v'..thisScript().version..': Обновление не требуется.')
+              print('v'..thisScript().version..': ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г­ГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї.')
             end
           end
         else
-          print('v'..thisScript().version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..url)
+          print('v'..thisScript().version..': ГЌГҐ Г¬Г®ГЈГі ГЇГ°Г®ГўГҐГ°ГЁГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. Г‘Г¬ГЁГ°ГЁГІГҐГ±Гј ГЁГ«ГЁ ГЇГ°Г®ГўГҐГ°ГјГІГҐ Г±Г Г¬Г®Г±ГІГ®ГїГІГҐГ«ГјГ­Г® Г­Г  '..url)
           update = false
         end
       end
